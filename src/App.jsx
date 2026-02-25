@@ -40,16 +40,16 @@ const C = {
 };
 
 const PRODUCTS = [
-  {id:1,name:"Classic Baguette",desc:"Crispy golden crust, soft airy interior.",allergens:"Wheat, Gluten",price:3.50,img:IMG_BAGUETTE},
-  {id:2,name:"Sourdough Loaf",desc:"72-hour fermented, tangy complex flavor.",allergens:"Wheat, Gluten",price:5.00,img:IMG_SOURDOUGH},
-  {id:3,name:"Uzbek Flatbread",desc:"Tandoor-baked, pillowy soft golden crust.",allergens:"Wheat, Gluten, Sesame",price:4.00,img:IMG_FLATBREAD},
-  {id:4,name:"Ciabatta",desc:"Italian classic — open crumb, olive oil.",allergens:"Wheat, Gluten",price:4.50,img:IMG_CIABATTA},
-  {id:5,name:"Whole Wheat",desc:"Hearty nutty flavor, wholesome grain.",allergens:"Wheat, Gluten",price:4.50,img:IMG_WHOLEWHEAT},
-  {id:6,name:"Rye Bread",desc:"Dense, dark, earthy. Northern European.",allergens:"Wheat, Rye, Gluten",price:5.50,img:IMG_RYE},
-  {id:7,name:"Focaccia",desc:"Rosemary & sea salt Italian flatbread.",allergens:"Wheat, Gluten",price:5.00,img:IMG_FOCACCIA},
-  {id:8,name:"Croissant",desc:"Buttery flaky layers of morning joy.",allergens:"Wheat, Gluten, Milk, Eggs",price:3.00,img:IMG_CROISSANT},
-  {id:9,name:"Multigrain Roll",desc:"Seeds, grains, wholesome every bite.",allergens:"Wheat, Gluten, Sesame, Nuts",price:2.50,img:IMG_MULTIGRAIN},
-  {id:10,name:"Challah",desc:"Braided egg bread — soft, sweet, beautiful.",allergens:"Wheat, Gluten, Eggs",price:6.00,img:IMG_CHALLAH},
+  {id:1,name:"Classic Baguette",desc:"Crispy golden crust, soft airy interior.",allergens:"Wheat, Gluten",price:3.50,img:IMG_BAGUETTE,rating:4.8,reviews:124},
+  {id:2,name:"Sourdough Loaf",desc:"72-hour fermented, tangy complex flavor.",allergens:"Wheat, Gluten",price:5.00,img:IMG_SOURDOUGH,rating:4.9,reviews:98},
+  {id:3,name:"Uzbek Flatbread",desc:"Tandoor-baked, pillowy soft golden crust.",allergens:"Wheat, Gluten, Sesame",price:4.00,img:IMG_FLATBREAD,rating:4.7,reviews:67},
+  {id:4,name:"Ciabatta",desc:"Italian classic — open crumb, olive oil.",allergens:"Wheat, Gluten",price:4.50,img:IMG_CIABATTA,rating:4.6,reviews:83},
+  {id:5,name:"Whole Wheat",desc:"Hearty nutty flavor, wholesome grain.",allergens:"Wheat, Gluten",price:4.50,img:IMG_WHOLEWHEAT,rating:4.5,reviews:56},
+  {id:6,name:"Rye Bread",desc:"Dense, dark, earthy. Northern European.",allergens:"Wheat, Rye, Gluten",price:5.50,img:IMG_RYE,rating:4.7,reviews:41},
+  {id:7,name:"Focaccia",desc:"Rosemary & sea salt Italian flatbread.",allergens:"Wheat, Gluten",price:5.00,img:IMG_FOCACCIA,rating:4.8,reviews:72},
+  {id:8,name:"Croissant",desc:"Buttery flaky layers of morning joy.",allergens:"Wheat, Gluten, Milk, Eggs",price:3.00,img:IMG_CROISSANT,rating:4.9,reviews:156},
+  {id:9,name:"Multigrain Roll",desc:"Seeds, grains, wholesome every bite.",allergens:"Wheat, Gluten, Sesame, Nuts",price:2.50,img:IMG_MULTIGRAIN,rating:4.4,reviews:38},
+  {id:10,name:"Challah",desc:"Braided egg bread — soft, sweet, beautiful.",allergens:"Wheat, Gluten, Eggs",price:6.00,img:IMG_CHALLAH,rating:4.8,reviews:89},
 ];
 const pImg = (p) => p.img;
 const DAYS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
@@ -361,6 +361,23 @@ function HomePage({ dist, mob, tab, pad, nav, goSched }) {
 // ==========================================
 // PRODUCT CARD
 // ==========================================
+// Rating badge component
+function RatingBadge({ rating, reviews, size="sm" }) {
+  const sm = size === "sm";
+  return (
+    <div style={{ display:"inline-flex",alignItems:"center",gap:sm?3:5 }}>
+      <div style={{ display:"flex",alignItems:"center",gap:1 }}>
+        {[1,2,3,4,5].map(s => {
+          const fill = s <= Math.floor(rating) ? 1 : (s - rating < 1 ? rating - Math.floor(rating) : 0);
+          return <svg key={s} width={sm?10:13} height={sm?10:13} viewBox="0 0 24 24"><defs><linearGradient id={`sf${s}${rating}`}><stop offset={`${fill*100}%`} stopColor="#E8A33A"/><stop offset={`${fill*100}%`} stopColor={sm?"#ddd":"rgba(255,255,255,0.2)"}/></linearGradient></defs><polygon fill={`url(#sf${s}${rating})`} points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>;
+        })}
+      </div>
+      <span style={{ fontSize:sm?10:12,fontWeight:600,color:sm?C.muted:"rgba(251,246,239,0.7)" }}>{rating}</span>
+      {reviews && <span style={{ fontSize:sm?9:11,color:sm?C.light:"rgba(251,246,239,0.4)" }}>({reviews})</span>}
+    </div>
+  );
+}
+
 function ProdCard({ p, mob, onClick }) {
   return (
     <div onClick={onClick} style={{ background:"#FFF",borderRadius:mob?14:20,overflow:"hidden",border:`1px solid ${C.border}`,transition:"all 0.3s",cursor:"pointer" }}
@@ -370,10 +387,11 @@ function ProdCard({ p, mob, onClick }) {
         <img src={pImg(p)} alt={p.name} style={{ width:"100%",height:"100%",objectFit:"cover" }} />
       </div>
       <div style={{ padding:mob?"12px":"20px 20px 24px" }}>
-        <div style={{ display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:mob?4:8 }}>
+        <div style={{ display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:mob?2:4 }}>
           <h3 style={{ fontFamily:"'Fraunces',serif",fontSize:mob?14:18,fontWeight:600 }}>{p.name}</h3>
-          <span style={{ fontSize:mob?13:16,fontWeight:700,color:C.accent }}>${p.price.toFixed(2)}</span>
+          <span style={{ fontSize:mob?16:20,fontWeight:700,color:C.accent }}>${p.price.toFixed(2)}</span>
         </div>
+        <div style={{ marginBottom:mob?4:8 }}><RatingBadge rating={p.rating} reviews={p.reviews} /></div>
         {!mob && <p style={{ fontSize:13,lineHeight:1.5,color:C.muted,marginBottom:10 }}>{p.desc}</p>}
         {!mob && <p style={{ fontSize:11,color:C.light }}>Allergens: {p.allergens}</p>}
         <div style={{ marginTop:mob?6:12,fontSize:mob?11:12,fontWeight:600,color:C.accent,display:"flex",alignItems:"center",gap:4 }}>
@@ -443,58 +461,82 @@ function SchedulePage({ items, setItems, slot, setSlot, preSel, clearPre, onChec
               <Ic.Plus /> Add Bread to Schedule
             </button>
           ) : (
-            <div style={{ background:"#FFF",borderRadius:mob?16:20,padding:mob?16:24,marginBottom:mob?12:24,border:`1px solid ${C.border}`,animation:"slideDown 0.3s ease" }}>
-              <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12 }}>
-                <h3 style={{ fontFamily:"'Fraunces',serif",fontSize:mob?15:18,fontWeight:600 }}>{addProd?addProd.name:"Pick a bread"}</h3>
+            <div style={{ background:"#FFF",borderRadius:mob?16:20,padding:mob?12:20,marginBottom:mob?12:24,border:`1px solid ${C.border}`,animation:"slideDown 0.3s ease" }}>
+              <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10 }}>
+                <h3 style={{ fontFamily:"'Fraunces',serif",fontSize:mob?15:18,fontWeight:600 }}>Pick a bread</h3>
                 <button onClick={() => { setShowPicker(false); setAddProd(null); }} style={{ background:"none",border:"none",cursor:"pointer",color:C.muted }}><Ic.X /></button>
               </div>
 
-              {/* Horizontal product scroller */}
-              <div style={{ display:"flex",gap:8,overflowX:"auto",paddingBottom:10,marginBottom:12,WebkitOverflowScrolling:"touch" }}>
-                {PRODUCTS.map(p => (
-                  <div key={p.id} onClick={() => setAddProd(p)} style={{
-                    flexShrink:0,width:mob?80:100,cursor:"pointer",textAlign:"center",
-                    border:addProd?.id===p.id?`2px solid ${C.accent}`:`1px solid ${C.border}`,
-                    borderRadius:mob?10:14,padding:mob?6:8,background:addProd?.id===p.id?"rgba(199,91,43,0.04)":"#FFF",
-                  }}>
-                    <img src={pImg(p)} alt={p.name} style={{ width:"100%",aspectRatio:"1",objectFit:"cover",borderRadius:mob?8:10,marginBottom:4 }} />
-                    <div style={{ fontSize:mob?9:11,fontWeight:600,lineHeight:1.2 }}>{p.name}</div>
-                    <div style={{ fontSize:mob?9:10,color:C.accent,fontWeight:600,marginTop:1 }}>${p.price.toFixed(2)}</div>
-                  </div>
-                ))}
+              {/* Product grid — builder inserts inline after selected card's row */}
+              <div style={{ display:"grid",gridTemplateColumns:mob?"repeat(3, 1fr)":"repeat(5, 1fr)",gap:mob?6:8 }}>
+                {PRODUCTS.map((p, idx) => {
+                  const cols = mob ? 3 : 5;
+                  const sel = addProd?.id === p.id;
+                  // Show builder after the last card in the selected card's row
+                  const selIdx = PRODUCTS.findIndex(x => x.id === addProd?.id);
+                  const selRowEnd = selIdx >= 0 ? (Math.floor(selIdx / cols) + 1) * cols - 1 : -1;
+                  const showBuilderHere = addProd && idx === Math.min(selRowEnd, PRODUCTS.length - 1);
+                  return (<React.Fragment key={p.id}>
+                    <div onClick={() => { setAddProd(p); setAddQty(1); setAddDays([]); }} style={{
+                      cursor:"pointer",textAlign:"center",
+                      border:sel?`2px solid ${C.accent}`:`1px solid ${C.border}`,
+                      borderRadius:mob?10:14,padding:mob?5:6,
+                      background:sel?"rgba(199,91,43,0.05)":"#FFF",
+                      transition:"all 0.2s",
+                    }}
+                      onMouseEnter={e => { if(!sel){e.currentTarget.style.borderColor=C.accent;e.currentTarget.style.background="rgba(199,91,43,0.02)";}}}
+                      onMouseLeave={e => { if(!sel){e.currentTarget.style.borderColor=C.border;e.currentTarget.style.background="#FFF";}}}
+                    >
+                      <img src={pImg(p)} alt={p.name} style={{ width:"100%",aspectRatio:"1",objectFit:"cover",borderRadius:mob?6:8,marginBottom:3 }} />
+                      <div style={{ fontSize:mob?8:10,fontWeight:600,lineHeight:1.2,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{p.name}</div>
+                      <div style={{ fontSize:mob?13:17,color:C.accent,fontWeight:700,marginTop:2 }}>${p.price.toFixed(2)}</div>
+                      <div style={{ display:"flex",alignItems:"center",justifyContent:"center",gap:1,marginTop:2 }}>
+                        {[1,2,3,4,5].map(s=><svg key={s} width={mob?7:9} height={mob?7:9} viewBox="0 0 24 24"><polygon fill={s<=Math.floor(p.rating)?"#E8A33A":(s-p.rating<1?"#E8A33A":"#ddd")} opacity={s<=Math.floor(p.rating)?1:(s-p.rating<1?0.5:1)} points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>)}
+                        <span style={{ fontSize:mob?7:8,color:C.light,marginLeft:2 }}>{p.rating}</span>
+                      </div>
+                    </div>
+                    {showBuilderHere && (
+                      <div style={{ gridColumn:`1 / -1`,background:"rgba(199,91,43,0.03)",border:`2px solid ${C.accent}`,borderRadius:mob?12:16,padding:mob?10:14,animation:"slideDown 0.25s ease" }}>
+                        <div style={{ display:"flex",gap:mob?10:14,alignItems:"center",marginBottom:mob?10:12 }}>
+                          <img src={pImg(addProd)} alt={addProd.name} style={{ width:mob?44:50,height:mob?44:50,borderRadius:mob?10:12,objectFit:"cover",flexShrink:0 }} />
+                          <div style={{ flex:1,minWidth:0 }}>
+                            <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center" }}>
+                              <h4 style={{ fontFamily:"'Fraunces',serif",fontSize:mob?14:16,fontWeight:600 }}>{addProd.name}</h4>
+                              <span style={{ fontSize:mob?17:22,fontWeight:700,color:C.accent }}>${addProd.price.toFixed(2)}</span>
+                            </div>
+                            <RatingBadge rating={addProd.rating} reviews={addProd.reviews} />
+                          </div>
+                          <button onClick={(e) => { e.stopPropagation(); setAddProd(null); }} style={{ background:"none",border:"none",cursor:"pointer",color:C.light,padding:4 }}><Ic.X /></button>
+                        </div>
+                        <div style={{ display:"flex",flexDirection:mob?"column":"row",alignItems:mob?"stretch":"center",gap:mob?8:12 }}>
+                          <div style={{ display:"flex",alignItems:"center",gap:5 }}>
+                            <span style={{ fontSize:12,fontWeight:500,color:C.muted }}>Qty:</span>
+                            <button onClick={() => setAddQty(Math.max(1,addQty-1))} style={{ width:30,height:30,borderRadius:8,border:`1px solid ${C.border}`,background:"#FFF",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center" }}><Ic.Min /></button>
+                            <span style={{ fontSize:14,fontWeight:700,width:20,textAlign:"center" }}>{addQty}</span>
+                            <button onClick={() => setAddQty(addQty+1)} style={{ width:30,height:30,borderRadius:8,border:`1px solid ${C.border}`,background:"#FFF",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center" }}><Ic.Plus /></button>
+                          </div>
+                          <div style={{ display:"flex",alignItems:"center",gap:mob?4:5,flexWrap:"wrap" }}>
+                            <span style={{ fontSize:12,fontWeight:500,color:C.muted }}>Days:</span>
+                            {DAYS.map(d => (
+                              <button key={d} onClick={() => setAddDays(addDays.includes(d)?addDays.filter(x=>x!==d):[...addDays,d])} style={{
+                                width:mob?34:36,height:mob?34:36,borderRadius:8,fontSize:10,fontWeight:600,
+                                border:addDays.includes(d)?`2px solid ${C.accent}`:`1px solid ${C.border}`,
+                                background:addDays.includes(d)?C.accent:"#FFF",color:addDays.includes(d)?"#FFF":C.muted,
+                                cursor:"pointer",transition:"all 0.2s",
+                              }}>{d}</button>
+                            ))}
+                          </div>
+                          <button onClick={addItem} disabled={addDays.length===0} style={{
+                            fontSize:12,fontWeight:700,color:"#FFF",marginLeft:mob?0:"auto",
+                            background:addDays.length===0?"#ccc":C.accent,
+                            border:"none",padding:mob?"10px":"8px 20px",borderRadius:8,cursor:addDays.length===0?"not-allowed":"pointer",width:mob?"100%":"auto",
+                          }}>Add ✓</button>
+                        </div>
+                      </div>
+                    )}
+                  </React.Fragment>);
+                })}
               </div>
-
-              {/* Qty + Days — stacked on mobile */}
-              {addProd && (
-                <div style={{ display:"flex",flexDirection:mob?"column":"row",alignItems:mob?"stretch":"center",gap:mob?12:16 }}>
-                  <div style={{ display:"flex",alignItems:"center",gap:6 }}>
-                    <span style={{ fontSize:13,fontWeight:500,color:C.muted }}>Qty:</span>
-                    <button onClick={() => setAddQty(Math.max(1,addQty-1))} style={{ width:32,height:32,borderRadius:8,border:`1px solid ${C.border}`,background:"#FFF",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center" }}><Ic.Min /></button>
-                    <span style={{ fontSize:15,fontWeight:700,width:24,textAlign:"center" }}>{addQty}</span>
-                    <button onClick={() => setAddQty(addQty+1)} style={{ width:32,height:32,borderRadius:8,border:`1px solid ${C.border}`,background:"#FFF",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center" }}><Ic.Plus /></button>
-                  </div>
-
-                  {!mob && <div style={{ width:1,height:28,background:C.border }} />}
-
-                  <div style={{ display:"flex",alignItems:"center",gap:mob?4:6,flexWrap:"wrap" }}>
-                    <span style={{ fontSize:13,fontWeight:500,color:C.muted,marginRight:2 }}>Days:</span>
-                    {DAYS.map(d => (
-                      <button key={d} onClick={() => setAddDays(addDays.includes(d)?addDays.filter(x=>x!==d):[...addDays,d])} style={{
-                        width:mob?38:40,height:mob?38:40,borderRadius:mob?8:10,fontSize:11,fontWeight:600,
-                        border:addDays.includes(d)?`2px solid ${C.accent}`:`1px solid ${C.border}`,
-                        background:addDays.includes(d)?C.accent:"#FFF",color:addDays.includes(d)?"#FFF":C.muted,
-                        cursor:"pointer",transition:"all 0.2s",
-                      }}>{d}</button>
-                    ))}
-                  </div>
-
-                  <button onClick={addItem} disabled={addDays.length===0} style={{
-                    fontSize:13,fontWeight:700,color:"#FFF",marginLeft:mob?0:"auto",
-                    background:addDays.length===0?"#ccc":C.accent,
-                    border:"none",padding:mob?"12px":"10px 24px",borderRadius:10,cursor:addDays.length===0?"not-allowed":"pointer",width:mob?"100%":"auto",
-                  }}>Add ✓</button>
-                </div>
-              )}
             </div>
           )}
 
