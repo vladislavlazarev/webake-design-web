@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Fragment } from "react";
 
 // ==========================================
 // WE BAKE — Client Web v5
@@ -476,7 +476,7 @@ function SchedulePage({ items, setItems, slot, setSlot, preSel, clearPre, onChec
                   const selIdx = PRODUCTS.findIndex(x => x.id === addProd?.id);
                   const selRowEnd = selIdx >= 0 ? (Math.floor(selIdx / cols) + 1) * cols - 1 : -1;
                   const showBuilderHere = addProd && idx === Math.min(selRowEnd, PRODUCTS.length - 1);
-                  return (<React.Fragment key={p.id}>
+                  return (<Fragment key={p.id}>
                     <div onClick={() => { setAddProd(p); setAddQty(1); setAddDays([]); }} style={{
                       cursor:"pointer",textAlign:"center",
                       border:sel?`2px solid ${C.accent}`:`1px solid ${C.border}`,
@@ -534,7 +534,7 @@ function SchedulePage({ items, setItems, slot, setSlot, preSel, clearPre, onChec
                         </div>
                       </div>
                     )}
-                  </React.Fragment>);
+                  </Fragment>);
                 })}
               </div>
             </div>
