@@ -12,7 +12,7 @@ const IMG_SOURDOUGH = "https://images.unsplash.com/photo-1586444248902-2f64eddc1
 const IMG_FLATBREAD = "https://images.unsplash.com/photo-1568254183919-78a4f43a2877?w=800&auto=format&fit=crop&q=80";
 const IMG_CIABATTA = "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&auto=format&fit=crop&q=80";
 const IMG_WHOLEWHEAT = "https://images.unsplash.com/photo-1598373182133-52452f7691ef?w=800&auto=format&fit=crop&q=80";
-const IMG_RYE = "https://images.unsplash.com/photo-1590137876181-2a5a7e340de2?w=800&auto=format&fit=crop&q=80";
+const IMG_RYE = "https://images.unsplash.com/photo-1600398142498-ef5ef0a46c1e?w=800&auto=format&fit=crop&q=80";
 const IMG_FOCACCIA = "https://images.unsplash.com/photo-1619535860434-ba1d8fa12536?w=800&auto=format&fit=crop&q=80";
 const IMG_CROISSANT = "https://images.unsplash.com/photo-1530610476181-d83430b64dcd?w=800&auto=format&fit=crop&q=80";
 const IMG_MULTIGRAIN = "https://images.unsplash.com/photo-1589367920969-ab8e050bbb04?w=800&auto=format&fit=crop&q=80";
@@ -296,41 +296,44 @@ function HomePage({ dist, mob, tab, pad, nav, goSched }) {
         </div>
       </section>
 
-      {/* HOW IT WORKS — with photos */}
-      <section style={{ padding:mob?"60px 16px 80px":"100px 48px 120px",background:C.dark,borderRadius:mob?"32px 32px 0 0":"48px 48px 0 0",position:"relative",overflow:"hidden" }}>
+      {/* HOW IT WORKS — redesigned */}
+      <section style={{ padding:mob?"60px 16px 80px":"100px 48px 100px",background:C.dark,borderRadius:mob?"32px 32px 0 0":"48px 48px 0 0",position:"relative",overflow:"hidden" }}>
         {!mob && <div style={{ position:"absolute",inset:0,pointerEvents:"none",opacity:0.03,backgroundImage:"radial-gradient(circle,#FBF6EF 1px,transparent 1px)",backgroundSize:"32px 32px" }} />}
 
-        <div style={{ textAlign:"center",marginBottom:mob?40:72,position:"relative",zIndex:1 }}>
+        <div style={{ textAlign:"center",marginBottom:mob?36:56,position:"relative",zIndex:1 }}>
           <div style={{ fontSize:12,fontWeight:600,letterSpacing:3,textTransform:"uppercase",color:"#E88D5A",marginBottom:12 }}>How It Works</div>
           <h2 style={{ fontFamily:"'Fraunces',serif",fontSize:mob?28:44,fontWeight:600,color:C.bg,marginBottom:12 }}>Bread on autopilot</h2>
           <p style={{ fontSize:mob?14:16,color:"rgba(251,246,239,0.5)",maxWidth:480,margin:"0 auto" }}>Four steps to fresh bread at your door every morning.</p>
         </div>
 
-        <div style={{ maxWidth:1100,margin:"0 auto",display:"flex",flexDirection:"column",gap:mob?24:40,position:"relative",zIndex:1 }}>
+        <div style={{ maxWidth:1000,margin:"0 auto",display:"grid",gridTemplateColumns:mob?"1fr":(tab?"1fr 1fr":"1fr 1fr"),gap:mob?16:20,position:"relative",zIndex:1 }}>
           {[
-            { icon:"🍞",num:"01",title:"Choose Your Bread",desc:"Browse our daily selection baked from scratch with the finest ingredients.",highlight:"10+ varieties",photo:IMG_HIW_CHOOSE },
-            { icon:"📅",num:"02",title:"Set Your Schedule",desc:"Pick delivery days and customize quantities for each day of the week.",highlight:"Fully flexible",photo:IMG_HIW_SCHEDULE },
-            { icon:"🔥",num:"03",title:"We Bake & Deliver",desc:"Every morning we bake your order fresh and deliver it hot to your doorstep.",highlight:"Before 9 AM",photo:IMG_HIW_DELIVER },
-            { icon:"💳",num:"04",title:"Pay Weekly",desc:"Charged only for what we delivered. No upfront commitments at all.",highlight:"Cancel anytime",photo:IMG_HIW_PAY },
+            { icon:"🍞",num:"01",title:"Choose Your Bread",desc:"Browse our daily selection — 10+ varieties baked from scratch with the finest ingredients.",photo:IMG_HIW_CHOOSE },
+            { icon:"📅",num:"02",title:"Set Your Schedule",desc:"Pick your delivery days and customize quantities. Fully flexible — change anytime.",photo:IMG_HIW_SCHEDULE },
+            { icon:"🔥",num:"03",title:"We Bake & Deliver",desc:"Every morning we bake your order fresh and deliver it hot to your door before 9 AM.",photo:IMG_HIW_DELIVER },
+            { icon:"💳",num:"04",title:"Pay Weekly",desc:"Charged only for what we delivered. No commitments, cancel anytime with one tap.",photo:IMG_HIW_PAY },
           ].map((step, i) => (
             <div key={i} style={{
-              display:"grid",gridTemplateColumns:mob?"1fr":(i%2===0?"1fr 1.2fr":"1.2fr 1fr"),gap:mob?16:32,alignItems:"center",
-              background:"rgba(251,246,239,0.03)",borderRadius:mob?20:28,overflow:"hidden",
-              border:"1px solid rgba(251,246,239,0.06)",transition:"all 0.3s",
-            }}>
-              {/* Text */}
-              <div style={{ padding:mob?"24px 20px":"40px 36px",order:mob?1:(i%2===0?1:2) }}>
-                <div style={{ display:"flex",alignItems:"center",gap:12,marginBottom:mob?12:20 }}>
-                  <div style={{ width:mob?44:56,height:mob?44:56,background:"linear-gradient(135deg,rgba(199,91,43,0.2),rgba(232,141,90,0.15))",borderRadius:mob?14:18,display:"flex",alignItems:"center",justifyContent:"center",fontSize:mob?22:28 }}>{step.icon}</div>
-                  <div style={{ fontFamily:"'Fraunces',serif",fontSize:mob?14:16,fontWeight:600,color:"rgba(232,141,90,0.25)" }}>{step.num}</div>
+              background:"rgba(251,246,239,0.04)",borderRadius:mob?18:24,overflow:"hidden",
+              border:"1px solid rgba(251,246,239,0.07)",transition:"all 0.4s",
+              display:"flex",flexDirection:"column",
+            }}
+              onMouseEnter={e => { if(!mob){ e.currentTarget.style.background="rgba(251,246,239,0.08)"; e.currentTarget.style.transform="translateY(-4px)"; }}}
+              onMouseLeave={e => { e.currentTarget.style.background="rgba(251,246,239,0.04)"; e.currentTarget.style.transform=""; }}
+            >
+              {/* Compact photo strip with gradient overlay for visual unity */}
+              <div style={{ position:"relative",height:mob?120:140,overflow:"hidden" }}>
+                <img src={step.photo} alt={step.title} style={{ width:"100%",height:"100%",objectFit:"cover",display:"block",filter:"brightness(0.7) saturate(0.8)" }} />
+                <div style={{ position:"absolute",inset:0,background:"linear-gradient(180deg,rgba(45,24,16,0.15) 0%,rgba(45,24,16,0.7) 100%)" }} />
+                <div style={{ position:"absolute",top:mob?12:16,left:mob?12:16,display:"flex",alignItems:"center",gap:8 }}>
+                  <div style={{ width:mob?36:42,height:mob?36:42,background:"rgba(199,91,43,0.85)",backdropFilter:"blur(8px)",borderRadius:mob?10:12,display:"flex",alignItems:"center",justifyContent:"center",fontSize:mob?18:20 }}>{step.icon}</div>
+                  <span style={{ fontFamily:"'Fraunces',serif",fontSize:mob?11:13,fontWeight:600,color:"rgba(251,246,239,0.4)",letterSpacing:1 }}>{step.num}</span>
                 </div>
-                <h3 style={{ fontFamily:"'Fraunces',serif",fontSize:mob?20:26,fontWeight:600,color:C.bg,marginBottom:mob?8:12 }}>{step.title}</h3>
-                <p style={{ fontSize:mob?13:15,lineHeight:1.6,color:"rgba(251,246,239,0.45)",marginBottom:mob?12:20 }}>{step.desc}</p>
-                <div style={{ display:"inline-flex",alignItems:"center",gap:6,fontSize:11,fontWeight:700,color:"#E88D5A",background:"rgba(232,141,90,0.1)",padding:"5px 14px",borderRadius:100 }}>{step.highlight}</div>
               </div>
-              {/* Photo */}
-              <div style={{ order:mob?0:(i%2===0?2:1),height:mob?180:"100%",minHeight:mob?"auto":260 }}>
-                <img src={step.photo} alt={step.title} style={{ width:"100%",height:"100%",objectFit:"cover",display:"block" }} />
+              {/* Text content */}
+              <div style={{ padding:mob?"16px 16px 20px":"20px 24px 24px",flex:1,display:"flex",flexDirection:"column" }}>
+                <h3 style={{ fontFamily:"'Fraunces',serif",fontSize:mob?18:21,fontWeight:600,color:C.bg,marginBottom:mob?6:8,lineHeight:1.2 }}>{step.title}</h3>
+                <p style={{ fontSize:mob?13:14,lineHeight:1.65,color:"rgba(251,246,239,0.55)",flex:1 }}>{step.desc}</p>
               </div>
             </div>
           ))}
