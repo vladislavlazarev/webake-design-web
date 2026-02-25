@@ -7,25 +7,25 @@ import { useState, useEffect, useRef } from "react";
 
 // ---- ASSETS (Unsplash photos) ----
 // Product images (unique per bread type)
-const IMG_BAGUETTE = "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=800&q=80";
-const IMG_SOURDOUGH = "https://images.unsplash.com/photo-1585478259715-876acc5be8eb?w=800&q=80";
-const IMG_FLATBREAD = "https://images.unsplash.com/photo-1568254183919-78a4f43a2877?w=800&q=80";
-const IMG_CIABATTA = "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80";
-const IMG_WHOLEWHEAT = "https://images.unsplash.com/photo-1598373182133-52452f7691ef?w=800&q=80";
-const IMG_RYE = "https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=800&q=80";
-const IMG_FOCACCIA = "https://images.unsplash.com/photo-1619535860434-ba1d8fa12536?w=800&q=80";
-const IMG_CROISSANT = "https://images.unsplash.com/photo-1555507036-ab1f4038024a?w=800&q=80";
-const IMG_MULTIGRAIN = "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80";
-const IMG_CHALLAH = "https://images.unsplash.com/photo-1603379016822-e6d5e2770ece?w=800&q=80";
+const IMG_BAGUETTE = "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=800&auto=format&fit=crop&q=80";
+const IMG_SOURDOUGH = "https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=800&auto=format&fit=crop&q=80";
+const IMG_FLATBREAD = "https://images.unsplash.com/photo-1568254183919-78a4f43a2877?w=800&auto=format&fit=crop&q=80";
+const IMG_CIABATTA = "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&auto=format&fit=crop&q=80";
+const IMG_WHOLEWHEAT = "https://images.unsplash.com/photo-1598373182133-52452f7691ef?w=800&auto=format&fit=crop&q=80";
+const IMG_RYE = "https://images.unsplash.com/photo-1590137876181-2a5a7e340de2?w=800&auto=format&fit=crop&q=80";
+const IMG_FOCACCIA = "https://images.unsplash.com/photo-1619535860434-ba1d8fa12536?w=800&auto=format&fit=crop&q=80";
+const IMG_CROISSANT = "https://images.unsplash.com/photo-1530610476181-d83430b64dcd?w=800&auto=format&fit=crop&q=80";
+const IMG_MULTIGRAIN = "https://images.unsplash.com/photo-1589367920969-ab8e050bbb04?w=800&auto=format&fit=crop&q=80";
+const IMG_CHALLAH = "https://images.unsplash.com/photo-1574085733277-851d9d856a3a?w=800&auto=format&fit=crop&q=80";
 
 // How It Works thematic photos
-const IMG_HIW_CHOOSE = "https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=800&q=80";
-const IMG_HIW_SCHEDULE = "https://images.unsplash.com/photo-1495364141860-b0d03eccd065?w=800&q=80";
-const IMG_HIW_DELIVER = "https://images.unsplash.com/photo-1526367790999-0150786686a2?w=800&q=80";
-const IMG_HIW_PAY = "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80";
+const IMG_HIW_CHOOSE = "https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=800&auto=format&fit=crop&q=80";
+const IMG_HIW_SCHEDULE = "https://images.unsplash.com/photo-1495364141860-b0d03eccd065?w=800&auto=format&fit=crop&q=80";
+const IMG_HIW_DELIVER = "https://images.unsplash.com/photo-1526367790999-0150786686a2?w=800&auto=format&fit=crop&q=80";
+const IMG_HIW_PAY = "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&auto=format&fit=crop&q=80";
 
 // Hero floating card / general bread box
-const IMG_BREADBOX = "https://images.unsplash.com/photo-1608198093002-ad4e005571d5?w=800&q=80";
+const IMG_BREADBOX = "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=800&auto=format&fit=crop&q=80";
 
 
 const YOUTUBE_ID = "CE68eR7MAw8";
