@@ -252,6 +252,9 @@ export default function App() {
 // HOME PAGE
 // ==========================================
 function HomePage({ dist, mob, tab, pad, nav, goSched }) {
+  const [cityForm, setCityForm] = useState({ name:"", email:"", city:"" });
+  const [citySubmitted, setCitySubmitted] = useState(false);
+  const handleCitySubmit = (e) => { e.preventDefault(); if(cityForm.name&&cityForm.email&&cityForm.city){ setCitySubmitted(true); } };
   return (
     <div>
       {/* HERO */}
@@ -316,39 +319,104 @@ function HomePage({ dist, mob, tab, pad, nav, goSched }) {
         </div>
       </section>
 
-      {/* DELIVERY AREA MAP */}
-      <section style={{ padding:mob?"40px 0":"80px 0" }}>
-        <div style={{ maxWidth:1100,margin:"0 auto",padding:mob?"0 16px":"0 48px" }}>
-          <div style={{ textAlign:"center",marginBottom:mob?24:40 }}>
-            <div style={{ fontSize:14,fontWeight:600,letterSpacing:3,textTransform:"uppercase",color:C.accent,marginBottom:12 }}>Delivery Area</div>
-            <h2 style={{ fontFamily:"'Fraunces',serif",fontSize:mob?26:40,fontWeight:600,marginBottom:8 }}>Currently serving Georgetown</h2>
-            <p style={{ fontSize:mob?14:16,color:C.muted,maxWidth:500,margin:"0 auto" }}>We're expanding across Washington DC. Join the waitlist for your neighborhood.</p>
-          </div>
+      {/* CITY REQUEST */}
+      <section style={{ padding:mob?"48px 0":"88px 0", background:C.cream }}>
+          <div style={{ maxWidth:1100,margin:"0 auto",padding:mob?"0 16px":"0 48px" }}>
 
-          <div style={{ borderRadius:mob?16:28,overflow:"hidden",position:"relative",border:`1px solid ${C.border}`,boxShadow:"0 8px 40px rgba(0,0,0,0.06)" }}>
-            <img src="/dc-map.png" alt="Washington DC delivery map — Georgetown highlighted" style={{ width:"100%",display:"block",minHeight:mob?220:360,objectFit:"cover" }} />
-            <div style={{ position:"absolute",inset:0,background:"linear-gradient(180deg,transparent 50%,rgba(45,24,16,0.6) 100%)" }} />
-            <div style={{ position:"absolute",bottom:0,left:0,right:0,padding:mob?"16px":"28px 36px",display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:12 }}>
-              <div>
-                <div style={{ display:"flex",alignItems:"center",gap:8,marginBottom:4 }}>
-                  <div style={{ width:10,height:10,borderRadius:"50%",background:C.ok,boxShadow:"0 0 8px rgba(61,139,94,0.5)" }} />
-                  <span style={{ fontSize:mob?15:18,fontWeight:700,color:"#FFF",fontFamily:"'Fraunces',serif" }}>Georgetown — Now Active</span>
+            {/* Header */}
+            <div style={{ textAlign:"center",marginBottom:mob?36:56 }}>
+              <div style={{ fontSize:14,fontWeight:600,letterSpacing:3,textTransform:"uppercase",color:C.accent,marginBottom:12 }}>Delivery</div>
+              <h2 style={{ fontFamily:"'Fraunces',serif",fontSize:mob?28:44,fontWeight:700,color:C.txt,marginBottom:14,lineHeight:1.1 }}>We bake in Georgetown, DC</h2>
+              <p style={{ fontSize:mob?15:17,color:C.muted,maxWidth:540,margin:"0 auto",lineHeight:1.6 }}>
+                Fresh bread is delivered every morning before 9 AM to Georgetown, Washington DC. Not from here? Let us know — we'll come to your city next.
+              </p>
+            </div>
+
+            <div style={{ display:"grid",gridTemplateColumns:mob?"1fr":"1fr 1fr",gap:mob?24:40,alignItems:"start" }}>
+
+              {/* Active city card */}
+              <div style={{ background:"#FFF",borderRadius:mob?18:24,padding:mob?"28px 20px":"36px 32px",border:`1px solid ${C.border}`,boxShadow:"0 4px 24px rgba(45,24,16,0.05)" }}>
+                <div style={{ display:"flex",alignItems:"center",gap:10,marginBottom:20 }}>
+                  <div style={{ width:12,height:12,borderRadius:"50%",background:C.ok,boxShadow:`0 0 0 3px rgba(61,139,94,0.15)`,flexShrink:0 }} />
+                  <span style={{ fontSize:13,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:C.ok }}>Now Active</span>
                 </div>
-                <span style={{ fontSize:mob?12:14,color:"rgba(255,255,255,0.7)" }}>Fresh bread delivered every morning before 9 AM</span>
+                <h3 style={{ fontFamily:"'Fraunces',serif",fontSize:mob?22:28,fontWeight:700,color:C.txt,marginBottom:8 }}>Georgetown, Washington DC</h3>
+                <p style={{ fontSize:mob?14:15,color:C.muted,lineHeight:1.65,marginBottom:24 }}>
+                  Delivering fresh-baked bread to Georgetown every morning. Orders close at midnight — bread arrives before 9 AM.
+                </p>
+                <div style={{ display:"flex",flexDirection:"column",gap:12 }}>
+                  {[
+                    { icon:"🕗", text:"Delivery by 9 AM, every day" },
+                    { icon:"📍", text:"Georgetown & surrounding streets" },
+                    { icon:"🍞", text:"10+ bread varieties, baked same morning" },
+                  ].map((item,i)=>(
+                    <div key={i} style={{ display:"flex",alignItems:"center",gap:10 }}>
+                      <span style={{ fontSize:18 }}>{item.icon}</span>
+                      <span style={{ fontSize:mob?13:14,color:C.muted }}>{item.text}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div style={{ display:"flex",gap:mob?12:20 }}>
-                <div style={{ display:"flex",alignItems:"center",gap:6 }}>
-                  <div style={{ width:12,height:12,borderRadius:3,background:"rgba(61,139,94,0.4)",border:"2px solid #3D8B5E" }} />
-                  <span style={{ fontSize:13,fontWeight:600,color:"rgba(255,255,255,0.85)" }}>Active</span>
-                </div>
-                <div style={{ display:"flex",alignItems:"center",gap:6 }}>
-                  <div style={{ width:12,height:12,borderRadius:3,background:"rgba(255,255,255,0.15)",border:"2px solid rgba(255,255,255,0.3)" }} />
-                  <span style={{ fontSize:13,fontWeight:600,color:"rgba(255,255,255,0.6)" }}>Coming soon</span>
-                </div>
+
+              {/* Request form */}
+              <div style={{ background:"#FFF",borderRadius:mob?18:24,padding:mob?"28px 20px":"36px 32px",border:`1px solid ${C.bAccent}`,boxShadow:"0 4px 24px rgba(199,91,43,0.06)" }}>
+                {citySubmitted ? (
+                  <div style={{ textAlign:"center",padding:"24px 0" }}>
+                    <div style={{ fontSize:40,marginBottom:16 }}>🎉</div>
+                    <h3 style={{ fontFamily:"'Fraunces',serif",fontSize:mob?20:24,fontWeight:700,color:C.txt,marginBottom:10 }}>You're on the list!</h3>
+                    <p style={{ fontSize:mob?14:15,color:C.muted,lineHeight:1.6 }}>We'll reach out to <strong>{cityForm.email}</strong> as soon as we launch in <strong>{cityForm.city}</strong>.</p>
+                  </div>
+                ) : (
+                  <>
+                    <div style={{ marginBottom:20 }}>
+                      <div style={{ fontSize:13,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:C.accent,marginBottom:8 }}>Not in DC?</div>
+                      <h3 style={{ fontFamily:"'Fraunces',serif",fontSize:mob?20:24,fontWeight:700,color:C.txt,marginBottom:6 }}>Request your city</h3>
+                      <p style={{ fontSize:mob?13:14,color:C.muted,lineHeight:1.55 }}>Tell us where you are — we're planning our next cities based on demand.</p>
+                    </div>
+                    <form onSubmit={handleCitySubmit} style={{ display:"flex",flexDirection:"column",gap:14 }}>
+                      <div>
+                        <label style={{ display:"block",fontSize:12,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:C.muted,marginBottom:6 }}>Your name</label>
+                        <input
+                          type="text" placeholder="Jane Smith" value={cityForm.name}
+                          onChange={e=>setCityForm(f=>({...f,name:e.target.value}))}
+                          style={{ width:"100%",padding:mob?"12px 14px":"13px 16px",borderRadius:10,border:`1.5px solid ${C.border}`,fontSize:14,color:C.txt,background:"#FFF",outline:"none",boxSizing:"border-box",fontFamily:"inherit",transition:"border-color 0.2s" }}
+                          onFocus={e=>e.target.style.borderColor=C.accent}
+                          onBlur={e=>e.target.style.borderColor=C.border}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display:"block",fontSize:12,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:C.muted,marginBottom:6 }}>Email</label>
+                        <input
+                          type="email" placeholder="jane@example.com" value={cityForm.email}
+                          onChange={e=>setCityForm(f=>({...f,email:e.target.value}))}
+                          style={{ width:"100%",padding:mob?"12px 14px":"13px 16px",borderRadius:10,border:`1.5px solid ${C.border}`,fontSize:14,color:C.txt,background:"#FFF",outline:"none",boxSizing:"border-box",fontFamily:"inherit",transition:"border-color 0.2s" }}
+                          onFocus={e=>e.target.style.borderColor=C.accent}
+                          onBlur={e=>e.target.style.borderColor=C.border}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display:"block",fontSize:12,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:C.muted,marginBottom:6 }}>Your city</label>
+                        <input
+                          type="text" placeholder="New York, NY" value={cityForm.city}
+                          onChange={e=>setCityForm(f=>({...f,city:e.target.value}))}
+                          style={{ width:"100%",padding:mob?"12px 14px":"13px 16px",borderRadius:10,border:`1.5px solid ${C.border}`,fontSize:14,color:C.txt,background:"#FFF",outline:"none",boxSizing:"border-box",fontFamily:"inherit",transition:"border-color 0.2s" }}
+                          onFocus={e=>e.target.style.borderColor=C.accent}
+                          onBlur={e=>e.target.style.borderColor=C.border}
+                        />
+                      </div>
+                      <button type="submit"
+                        style={{ marginTop:4,padding:mob?"14px":"15px 24px",borderRadius:12,background:C.accent,color:"#FFF",fontWeight:700,fontSize:15,border:"none",cursor:"pointer",fontFamily:"'Fraunces',serif",letterSpacing:0.5,transition:"background 0.2s" }}
+                        onMouseEnter={e=>e.currentTarget.style.background=C.accentL}
+                        onMouseLeave={e=>e.currentTarget.style.background=C.accent}
+                      >
+                        Notify me when you arrive
+                      </button>
+                    </form>
+                  </>
+                )}
               </div>
             </div>
           </div>
-        </div>
       </section>
 
       {/* HOW IT WORKS */}
