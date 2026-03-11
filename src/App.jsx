@@ -252,9 +252,9 @@ export default function App() {
 // HOME PAGE
 // ==========================================
 function HomePage({ dist, mob, tab, pad, nav, goSched }) {
-  const [cityForm, setCityForm] = useState({ name:"", email:"", city:"" });
+  const [cityForm, setCityForm] = useState({ name:"", email:"", city:"", street:"", zip:"" });
   const [citySubmitted, setCitySubmitted] = useState(false);
-  const handleCitySubmit = (e) => { e.preventDefault(); if(cityForm.name&&cityForm.email&&cityForm.city){ setCitySubmitted(true); } };
+  const handleCitySubmit = (e) => { e.preventDefault(); if(cityForm.city&&cityForm.street&&cityForm.zip){ setCitySubmitted(true); } };
   return (
     <div>
       {/* HERO */}
@@ -364,41 +364,41 @@ function HomePage({ dist, mob, tab, pad, nav, goSched }) {
                   <div style={{ textAlign:"center",padding:"24px 0" }}>
                     <div style={{ fontSize:40,marginBottom:16 }}>🎉</div>
                     <h3 style={{ fontFamily:"'Fraunces',serif",fontSize:mob?20:24,fontWeight:700,color:C.txt,marginBottom:10 }}>You're on the list!</h3>
-                    <p style={{ fontSize:mob?14:15,color:C.muted,lineHeight:1.6 }}>We'll reach out to <strong>{cityForm.email}</strong> as soon as we launch in <strong>{cityForm.city}</strong>.</p>
+                    <p style={{ fontSize:mob?14:15,color:C.muted,lineHeight:1.6 }}>We got your address in <strong>{cityForm.city}</strong>. We'll let you know as soon as we launch there!</p>
                   </div>
                 ) : (
                   <>
                     <div style={{ marginBottom:20 }}>
-                      <div style={{ fontSize:13,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:C.accent,marginBottom:8 }}>Not in DC?</div>
+                      <div style={{ fontSize:13,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:C.accent,marginBottom:8 }}>Not in Georgetown?</div>
                       <h3 style={{ fontFamily:"'Fraunces',serif",fontSize:mob?20:24,fontWeight:700,color:C.txt,marginBottom:6 }}>Request your city</h3>
                       <p style={{ fontSize:mob?13:14,color:C.muted,lineHeight:1.55 }}>Tell us where you are — we're planning our next cities based on demand.</p>
                     </div>
                     <form onSubmit={handleCitySubmit} style={{ display:"flex",flexDirection:"column",gap:14 }}>
                       <div>
-                        <label style={{ display:"block",fontSize:12,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:C.muted,marginBottom:6 }}>Your name</label>
+                        <label style={{ display:"block",fontSize:12,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:C.muted,marginBottom:6 }}>City</label>
                         <input
-                          type="text" placeholder="Jane Smith" value={cityForm.name}
-                          onChange={e=>setCityForm(f=>({...f,name:e.target.value}))}
-                          style={{ width:"100%",padding:mob?"12px 14px":"13px 16px",borderRadius:10,border:`1.5px solid ${C.border}`,fontSize:14,color:C.txt,background:"#FFF",outline:"none",boxSizing:"border-box",fontFamily:"inherit",transition:"border-color 0.2s" }}
-                          onFocus={e=>e.target.style.borderColor=C.accent}
-                          onBlur={e=>e.target.style.borderColor=C.border}
-                        />
-                      </div>
-                      <div>
-                        <label style={{ display:"block",fontSize:12,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:C.muted,marginBottom:6 }}>Email</label>
-                        <input
-                          type="email" placeholder="jane@example.com" value={cityForm.email}
-                          onChange={e=>setCityForm(f=>({...f,email:e.target.value}))}
-                          style={{ width:"100%",padding:mob?"12px 14px":"13px 16px",borderRadius:10,border:`1.5px solid ${C.border}`,fontSize:14,color:C.txt,background:"#FFF",outline:"none",boxSizing:"border-box",fontFamily:"inherit",transition:"border-color 0.2s" }}
-                          onFocus={e=>e.target.style.borderColor=C.accent}
-                          onBlur={e=>e.target.style.borderColor=C.border}
-                        />
-                      </div>
-                      <div>
-                        <label style={{ display:"block",fontSize:12,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:C.muted,marginBottom:6 }}>Your city</label>
-                        <input
-                          type="text" placeholder="New York, NY" value={cityForm.city}
+                          type="text" placeholder="New York" value={cityForm.city}
                           onChange={e=>setCityForm(f=>({...f,city:e.target.value}))}
+                          style={{ width:"100%",padding:mob?"12px 14px":"13px 16px",borderRadius:10,border:`1.5px solid ${C.border}`,fontSize:14,color:C.txt,background:"#FFF",outline:"none",boxSizing:"border-box",fontFamily:"inherit",transition:"border-color 0.2s" }}
+                          onFocus={e=>e.target.style.borderColor=C.accent}
+                          onBlur={e=>e.target.style.borderColor=C.border}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display:"block",fontSize:12,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:C.muted,marginBottom:6 }}>Street</label>
+                        <input
+                          type="text" placeholder="123 Main St" value={cityForm.street}
+                          onChange={e=>setCityForm(f=>({...f,street:e.target.value}))}
+                          style={{ width:"100%",padding:mob?"12px 14px":"13px 16px",borderRadius:10,border:`1.5px solid ${C.border}`,fontSize:14,color:C.txt,background:"#FFF",outline:"none",boxSizing:"border-box",fontFamily:"inherit",transition:"border-color 0.2s" }}
+                          onFocus={e=>e.target.style.borderColor=C.accent}
+                          onBlur={e=>e.target.style.borderColor=C.border}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display:"block",fontSize:12,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:C.muted,marginBottom:6 }}>ZIP</label>
+                        <input
+                          type="text" placeholder="10001" value={cityForm.zip}
+                          onChange={e=>setCityForm(f=>({...f,zip:e.target.value}))}
                           style={{ width:"100%",padding:mob?"12px 14px":"13px 16px",borderRadius:10,border:`1.5px solid ${C.border}`,fontSize:14,color:C.txt,background:"#FFF",outline:"none",boxSizing:"border-box",fontFamily:"inherit",transition:"border-color 0.2s" }}
                           onFocus={e=>e.target.style.borderColor=C.accent}
                           onBlur={e=>e.target.style.borderColor=C.border}
