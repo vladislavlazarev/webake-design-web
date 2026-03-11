@@ -254,7 +254,7 @@ export default function App() {
 function HomePage({ dist, mob, tab, pad, nav, goSched }) {
   const [cityForm, setCityForm] = useState({ name:"", email:"", city:"", street:"", zip:"" });
   const [citySubmitted, setCitySubmitted] = useState(false);
-  const handleCitySubmit = (e) => { e.preventDefault(); if(cityForm.city&&cityForm.street&&cityForm.zip){ setCitySubmitted(true); } };
+  const handleCitySubmit = (e) => { e.preventDefault(); if(cityForm.city&&cityForm.street&&cityForm.zip&&cityForm.email){ setCitySubmitted(true); } };
   return (
     <div>
       {/* HERO */}
@@ -399,6 +399,16 @@ function HomePage({ dist, mob, tab, pad, nav, goSched }) {
                         <input
                           type="text" placeholder="10001" value={cityForm.zip}
                           onChange={e=>setCityForm(f=>({...f,zip:e.target.value}))}
+                          style={{ width:"100%",padding:mob?"12px 14px":"13px 16px",borderRadius:10,border:`1.5px solid ${C.border}`,fontSize:14,color:C.txt,background:"#FFF",outline:"none",boxSizing:"border-box",fontFamily:"inherit",transition:"border-color 0.2s" }}
+                          onFocus={e=>e.target.style.borderColor=C.accent}
+                          onBlur={e=>e.target.style.borderColor=C.border}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display:"block",fontSize:12,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:C.muted,marginBottom:6 }}>Email</label>
+                        <input
+                          type="email" placeholder="jane@example.com" value={cityForm.email}
+                          onChange={e=>setCityForm(f=>({...f,email:e.target.value}))}
                           style={{ width:"100%",padding:mob?"12px 14px":"13px 16px",borderRadius:10,border:`1.5px solid ${C.border}`,fontSize:14,color:C.txt,background:"#FFF",outline:"none",boxSizing:"border-box",fontFamily:"inherit",transition:"border-color 0.2s" }}
                           onFocus={e=>e.target.style.borderColor=C.accent}
                           onBlur={e=>e.target.style.borderColor=C.border}
